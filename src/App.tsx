@@ -2,13 +2,7 @@ import React from "react";
 import "./App.css";
 import { NavBar } from "./ui/components/nav/NavBar";
 import { AuthProvider } from "./context/AuthContext";
-import {
-  Box,
-  ThemeProvider,
-  Toolbar,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, ThemeProvider, Toolbar, useMediaQuery } from "@mui/material";
 import { theme } from "./lib/themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PageContent } from "./ui/components/PageContent";

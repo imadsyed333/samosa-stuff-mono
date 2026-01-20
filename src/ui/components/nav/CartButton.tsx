@@ -1,10 +1,7 @@
 import { ShoppingCart } from "@mui/icons-material";
-import { Box, Card, CardActionArea, Typography } from "@mui/material";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Card, CardActionArea, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useAuth } from "../../../context/AuthContext";
-import { useQuery } from "@tanstack/react-query";
-import { getAllCartItems } from "../../../api/cartClient";
 import { useCartQuery } from "../../../hooks/useCartQuery";
 import { colors } from "../../../lib/themes";
 
