@@ -9,9 +9,8 @@ export const CartTable = () => {
   return (
     <Box
       sx={{
-        display: "flex",
+        flex: 1,
         flexDirection: "column",
-        width: "100%",
       }}
     >
       {cart.map((item, key) => (
