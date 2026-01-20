@@ -7,7 +7,11 @@ import { IncrementalButton } from "../IncrementalButton";
 import { useCartActions } from "../../../hooks/useCartActions";
 import { colors } from "../../../lib/themes";
 
-export const CartItemCard = ({ item }: { item: CartItem }) => {
+type CartItemProps = {
+  item: CartItem;
+};
+
+export const CartItemCard = ({ item }: CartItemProps) => {
   const { deleteItem, updateQuantity } = useCartActions();
 
   return (
