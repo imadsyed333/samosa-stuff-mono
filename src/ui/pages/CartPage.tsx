@@ -9,25 +9,19 @@ import {
 import { CartTable } from "../components/cart/CartTable";
 import { ShoppingCart } from "@mui/icons-material";
 import { formatPrice } from "../../lib/utils";
-import { checkoutCart } from "../../api/cartClient";
 import { useCartQuery } from "../../hooks/useCartQuery";
 import { colors } from "../../lib/themes";
+import { useNavigate } from "react-router";
 
 export const Cart = () => {
   const { cart, isPending } = useCartQuery();
 
+  const navigate = useNavigate();
+
   const cartTotal = cart.reduce(
     (sum, item) => item.product.price * item.quantity + sum,
-    0
+    0,
   );
-
-  const handleCheckout = () => {
-    if (cart.length > 0) {
-      checkoutCart()
-        .then((res) => (window.location.href = res.url))
-        .catch((err) => console.log(err));
-    }
-  };
 
   return (
     <Box
@@ -110,7 +104,8 @@ export const Cart = () => {
                 display: "flex",
                 backgroundColor: colors.button.primary,
               }}
-              onClick={() => handleCheckout()}
+              onClick={() => navigate("/checkout")}
+              disabled={cart.length < 1}
             >
               <Typography
                 sx={{
