@@ -42,6 +42,9 @@ export const CustomerInfo = ({ order }: CustomerInfoProps) => {
         <Typography variant="h6">
           <b>Email: </b> {user?.email}
         </Typography>
+        <Typography variant="h6">
+          <b>Phone: </b> {order.phone}
+        </Typography>
       </Box>
       <Box
         sx={{
