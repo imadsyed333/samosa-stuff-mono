@@ -29,6 +29,16 @@ export const getAllOrders = async () => {
   }
 };
 
+export const createOrder = async (phone: string) => {
+  try {
+    const res = await api.post(`/orders`, { phone });
+    return res.data;
+  } catch (e) {
+    console.error("Error creating order:", e);
+    throw e;
+  }
+};
+
 export const updateOrderStatus = async (id: number, status: OrderStatus) => {
   try {
     const res = await api.put<UpdateOrderResponse>(`/orders/${id}`, { status });
