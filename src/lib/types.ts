@@ -25,6 +25,7 @@ export type Order = {
   createdAt: Date;
   orderItems: OrderItem[];
   status: OrderStatus;
+  phone: string;
 };
 
 export type OrderItem = {
