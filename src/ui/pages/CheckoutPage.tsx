@@ -6,20 +6,40 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import CheckoutTable from "../components/checkout/CheckoutTable";
 import { useCartQuery } from "../../hooks/useCartQuery";
 import { formatPrice } from "../../lib/utils";
+import { useMask } from "@react-input/mask";
+import { createOrder } from "../../api/orderClient";
 
 const CheckoutPage = () => {
   const { cart } = useCartQuery();
   const navigate = useNavigate();
 
+  const [phone, setPhone] = useState("");
+
+  const inputRef = useMask({
+    mask: "(___) ___-____",
+    replacement: { _: /\d/ },
+  });
+
   const cartTotal = cart.reduce(
     (sum, item) => item.product.price * item.quantity + sum,
     0,
   );
+
+  const onCheckout = async () => {
+    try {
+      const res = await createOrder(phone);
+      console.log(res);
+      navigate("/checkout/success");
+    } catch (e) {
+      console.log(e);
+      alert("Could not place order.");
+    }
+  };
 
   return (
     <Box
@@ -68,6 +88,10 @@ const CheckoutPage = () => {
             sx={{
               flex: 1,
             }}
+            inputRef={inputRef}
+            placeholder="000-000-0000"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
           <Box
             sx={{
@@ -90,7 +114,7 @@ const CheckoutPage = () => {
                 flex: 1,
               }}
               variant="contained"
-              onClick={() => navigate("/checkout/success")}
+              onClick={onCheckout}
             >
               Checkout
             </Button>
