@@ -7,6 +7,9 @@
   "scripts": {
     "dev:frontend": "npm run dev --workspace apps/frontend",
     "dev:backend": "npm run dev --workspace apps/backend",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\""
+    "dev": "concurrently -n frontend,backend -c blue,green \"npm run dev:frontend\" \"npm run dev:backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }
