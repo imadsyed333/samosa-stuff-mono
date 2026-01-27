@@ -4,6 +4,7 @@ import { AuthRequest } from "../middlewares/auth-middleware";
 import z from "zod";
 import path from "path";
 import { unlink } from "fs";
+import { getParams } from "../utils/validators";
 
 const ProductSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -52,7 +53,7 @@ export const createProduct = async (req: AuthRequest, res: Response) => {
 
 export const getProduct = async (req: Request, res: Response) => {
   try {
-    const productId = req.params.id;
+    const productId = getParams(req.params.id || "");
     if (!productId) return res.status(400).json({ error: "id not provided" });
 
     const product = await prisma.product.findUnique({
@@ -70,7 +71,7 @@ export const getProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: AuthRequest, res: Response) => {
   try {
-    const productId = req.params.id;
+    const productId = getParams(req.params.id || "");
 
     if (!productId) return res.status(400).json({ error: "id not provided" });
 
@@ -131,7 +132,7 @@ export const deleteProduct = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) return res.status(401).json({ error: "Unauthorized" });
 
-    const productId = req.params.id;
+    const productId = getParams(req.params.id || "");
 
     if (!productId) return res.status(400).json({ error: "id not provided" });
 

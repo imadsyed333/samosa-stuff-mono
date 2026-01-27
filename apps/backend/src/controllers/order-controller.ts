@@ -4,6 +4,7 @@ import prisma from "../lib/prisma";
 import z from "zod";
 import { OrderStatus } from "../../generated/prisma";
 import validator from "validator";
+import { getParams } from "../utils/validators";
 
 const OrderStatusSchema = z.object({
   status: z.literal(Object.values(OrderStatus)),
@@ -147,7 +148,7 @@ export const getAllOrders = async (req: AuthRequest, res: Response) => {
 export const getOrder = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) return res.status(401).json({ error: "Unauthorized" });
-    const orderId = req.params.id;
+    const orderId = getParams(req.params.id || "");
     if (!orderId) return res.status(400).json({ error: "id not provided" });
     const order = await prisma.order.findUnique({
       where: {
@@ -165,7 +166,7 @@ export const getOrder = async (req: AuthRequest, res: Response) => {
 export const deleteOrder = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) return res.status(401).json({ error: "Unauthorized" });
-    const orderId = req.params.id;
+    const orderId = getParams(req.params.id || "");
     if (!orderId) return res.status(400).json({ error: "id not provided" });
     const order = await prisma.order.delete({
       where: {
@@ -183,7 +184,7 @@ export const deleteOrder = async (req: AuthRequest, res: Response) => {
 export const updateOrderStatus = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) return res.status(401).json({ error: "Unauthorized" });
-    const orderId = req.params.id;
+    const orderId = getParams(req.params.id || "");
     if (!orderId) return res.status(400).json({ error: "id not provided" });
     const parse = OrderStatusSchema.safeParse(req.body);
     if (!parse.success) {
