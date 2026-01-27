@@ -14,7 +14,9 @@ const CreateOrderSchema = z.object({
   phone: z
     .string()
     .min(1, { error: "phone must not be empty" })
-    .regex(/^\(\d{3}\) \d{3}-\d{4}$/),
+    .refine((val) => validator.isMobilePhone(val), {
+      message: "Invalid phone number",
+    }),
 });
 
 export const getUserOrders = async (req: AuthRequest, res: Response) => {
