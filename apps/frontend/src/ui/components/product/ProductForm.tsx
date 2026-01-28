@@ -47,7 +47,7 @@ export const ProductForm = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (selectedProduct) {
+    if (selectedProduct?.id) {
       const { id, image: imagePreview, ...rest } = selectedProduct;
       setFormProduct({
         imagePreview,
