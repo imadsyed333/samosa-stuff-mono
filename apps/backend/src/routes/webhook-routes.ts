@@ -1,8 +1,8 @@
-import { raw, Router } from "express";
-import { handleCheckout } from "../controllers/webhook-controller";
+// import { raw, Router } from "express";
+// import { handleCheckout } from "../controllers/webhook-controller";
 
-const router = Router();
+// const router = Router();
 
-router.post("/", raw({ type: "application/json" }), handleCheckout);
+// router.post("/", raw({ type: "application/json" }), handleCheckout);
 
-export default router;
+// export default router;
