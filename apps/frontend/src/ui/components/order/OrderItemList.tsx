@@ -1,5 +1,5 @@
 import React from "react";
-import { Order, OrderItem } from "../../../lib/types";
+import { OrderItem } from "../../../lib/types";
 import { FadeWrapper } from "../FadeWrapper";
 import { List, ListItem } from "@mui/material";
 import { OrderItemCard } from "./OrderItemCard";

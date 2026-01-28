@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { FieldErrors, User } from "../lib/types";
 import {
   loginUser,
@@ -94,10 +88,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
       .catch((e) => console.log(e));
   };
 
-  const value = useMemo(
-    () => ({ user, loading, register, login, logout, fieldErrors }),
-    [user, fieldErrors]
-  );
+  const value = { user, loading, register, login, logout, fieldErrors };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

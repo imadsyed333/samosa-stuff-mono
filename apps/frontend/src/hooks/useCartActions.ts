@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addCartItem, getAllCartItems, syncCart } from "../api/cartClient";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addCartItem, syncCart } from "../api/cartClient";
 import { CartItem, DeleteItem, Product, UpdateItem } from "../lib/types";
 import { useRef } from "react";
 
@@ -24,14 +24,14 @@ export const useCartActions = () => {
 
       let optimisticCart: CartItem[];
       const existingIndex = previousCart.findIndex(
-        (item) => item.product.id === product.id
+        (item) => item.product.id === product.id,
       );
 
       if (existingIndex > -1) {
         optimisticCart = previousCart.map((item, i) =>
           i === existingIndex
             ? { ...item, quantity: item.quantity + quantity }
-            : item
+            : item,
         );
       } else {
         optimisticCart = [
@@ -76,8 +76,8 @@ export const useCartActions = () => {
       (payload: { updateItems: UpdateItem[]; deleteItems: DeleteItem[] }) => {
         syncMutation.mutate(payload);
       },
-      800
-    )
+      800,
+    ),
   ).current;
 
   const addToCart = (product: Product, quantity = 1) => {
@@ -86,7 +86,9 @@ export const useCartActions = () => {
 
   const updateQuantity = (cartItemId: number, quantity: number) => {
     queryClient.setQueryData<CartItem[]>(["cart"], (old: CartItem[] = []) =>
-      old.map((item) => (item.id === cartItemId ? { ...item, quantity } : item))
+      old.map((item) =>
+        item.id === cartItemId ? { ...item, quantity } : item,
+      ),
     );
     debouncedSync({
       updateItems: [{ id: cartItemId, quantity }],
@@ -96,7 +98,7 @@ export const useCartActions = () => {
 
   const deleteItem = (cartItemId: number) => {
     queryClient.setQueryData(["cart"], (old: CartItem[] = []) =>
-      old.filter((item) => item.id !== cartItemId)
+      old.filter((item) => item.id !== cartItemId),
     );
     debouncedSync({ updateItems: [], deleteItems: [{ id: cartItemId }] });
   };

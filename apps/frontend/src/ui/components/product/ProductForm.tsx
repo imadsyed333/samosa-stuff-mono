@@ -56,7 +56,7 @@ export const ProductForm = () => {
       });
     }
     setFormErrors({});
-  }, [selectedProduct?.id, products]);
+  }, [selectedProduct, products]);
 
   const setFormValue = (key: string, value: any) => {
     setFormProduct({
