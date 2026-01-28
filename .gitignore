@@ -3,6 +3,7 @@ node_modules
 .env
 
 apps/backend/generated/prisma
+apps/backend/dist
 
 
 /.pnp
