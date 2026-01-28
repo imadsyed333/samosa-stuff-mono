@@ -1,7 +1,5 @@
-import { Box, Card, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { getAllProducts } from "../../api/productClient";
-import { Product } from "../../lib/types";
+import { Box, Typography } from "@mui/material";
+import React from "react";
 import { MenuGrid } from "../components/menu/MenuGrid";
 import { colors } from "../../lib/themes";
 

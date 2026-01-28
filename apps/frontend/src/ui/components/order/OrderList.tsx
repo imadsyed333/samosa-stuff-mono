@@ -1,6 +1,6 @@
 import React from "react";
 import { FadeWrapper } from "../FadeWrapper";
-import { CircularProgress, List, ListItem, Typography } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 import { Order } from "../../../lib/types";
 import { OrderCard } from "./OrderCard";
 

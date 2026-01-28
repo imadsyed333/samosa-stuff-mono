@@ -10,7 +10,6 @@ export const Profile = () => {
     isError,
     isPending,
     data: orders = [],
-    error,
   } = useQuery({
     queryKey: ["user_orders"],
     queryFn: getUserOrders,

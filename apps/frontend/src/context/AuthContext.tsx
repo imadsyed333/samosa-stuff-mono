@@ -94,10 +94,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
       .catch((e) => console.log(e));
   };
 
-  const value = useMemo(
-    () => ({ user, loading, register, login, logout, fieldErrors }),
-    [user, fieldErrors]
-  );
+  const value = { user, loading, register, login, logout, fieldErrors };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

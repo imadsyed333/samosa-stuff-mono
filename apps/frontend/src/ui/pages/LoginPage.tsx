@@ -1,13 +1,6 @@
-import {
-  Box,
-  Button,
-  Card,
-  CircularProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { useContext, useState } from "react";
-import { AuthContext, useAuth } from "../../context/AuthContext";
+import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { NavLink } from "react-router";
 import { ErrorBox } from "../components/ErrorBox";
 import { colors } from "../../lib/themes";

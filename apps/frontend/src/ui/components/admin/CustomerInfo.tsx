@@ -1,9 +1,8 @@
 import { Box, Button, MenuItem, Select, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Order, OrderStatus } from "../../../lib/types";
 import { colors } from "../../../lib/themes";
 import { useOrderActions } from "./useOrderActions";
-import { useOrderQuery } from "./useOrderQuery";
 import { Circle } from "@mui/icons-material";
 
 type CustomerInfoProps = {
