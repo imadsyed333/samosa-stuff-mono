@@ -47,7 +47,7 @@ export const ProductForm = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (selectedProduct?.id) {
+    if (selectedProduct) {
       const { id, image: imagePreview, ...rest } = selectedProduct;
       setFormProduct({
         imagePreview,
@@ -56,7 +56,7 @@ export const ProductForm = () => {
       });
     }
     setFormErrors({});
-  }, [selectedProduct?.id, products]);
+  }, [selectedProduct, products]);
 
   const setFormValue = (key: string, value: any) => {
     setFormProduct({
