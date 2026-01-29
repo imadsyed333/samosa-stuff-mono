@@ -5,10 +5,12 @@ import { IncrementalButton } from "../IncrementalButton";
 import { Product } from "../../../lib/types";
 import { useCartActions } from "../../../hooks/useCartActions";
 import { colors } from "../../../lib/themes";
+import { useAuth } from "../../../context/AuthContext";
 
 export const ProductSideCard = ({ product }: { product: Product }) => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCartActions();
+  const { user } = useAuth();
   return (
     <Card
       sx={{
@@ -74,6 +76,7 @@ export const ProductSideCard = ({ product }: { product: Product }) => {
             width: "100%",
             backgroundColor: colors.tertiary,
           }}
+          disabled={user === null}
           onClick={() => addToCart(product, quantity)}
         >
           <Typography
@@ -82,7 +85,7 @@ export const ProductSideCard = ({ product }: { product: Product }) => {
               color: colors.primary,
             }}
           >
-            Add to Cart
+            {user === null ? "Login to add to Cart" : "Add to Cart"}
           </Typography>
         </Button>
       </Box>

@@ -13,6 +13,7 @@ import { useCartQuery } from "../../hooks/useCartQuery";
 import { formatPrice } from "../../lib/utils";
 import { useMask } from "@react-input/mask";
 import { createOrder } from "../../api/orderClient";
+import z from "zod";
 
 const CheckoutPage = () => {
   const { cart } = useCartQuery();
@@ -32,6 +33,14 @@ const CheckoutPage = () => {
 
   const onCheckout = async () => {
     try {
+      const parse = z
+        .string()
+        .regex(/^\(\d{3}\) \d{3}-\d{4}$/)
+        .safeParse(phone);
+      if (!parse.success) {
+        alert("Please enter a valid phone number.");
+        return;
+      }
       const res = await createOrder(phone);
       console.log(res);
       navigate("/checkout/success");
