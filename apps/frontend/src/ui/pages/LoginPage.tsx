@@ -10,7 +10,9 @@ export const Login = () => {
     email: "",
     password: "",
   });
-  const { login, fieldErrors, loading } = useAuth();
+  const { login, fieldErrors } = useAuth();
+
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (e: any) => {
     setForm({
@@ -57,7 +59,10 @@ export const Login = () => {
         <Button
           variant="contained"
           sx={{ backgroundColor: colors.button.primary }}
-          onClick={() => login(form.email, form.password)}
+          onClick={() => {
+            login(form.email, form.password);
+            setLoading(true);
+          }}
           size="large"
           loading={loading}
         >
