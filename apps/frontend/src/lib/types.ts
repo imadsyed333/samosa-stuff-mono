@@ -7,15 +7,13 @@ export type Product = {
 };
 
 export type CartItem = {
-  id: number;
-  product: Product;
+  productId: number;
   quantity: number;
 };
 
 export enum OrderStatus {
   PLACED = "PLACED",
   READY = "READY",
-  RECEIVED = "RECEIVED",
 }
 
 export type Order = {
