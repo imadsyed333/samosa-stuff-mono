@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from "../lib/types";
+import { CartItem, Order, OrderStatus } from "../lib/types";
 import api from "./api";
 
 type GetOrdersResponse = {
@@ -9,14 +9,9 @@ type UpdateOrderResponse = {
   order: Order;
 };
 
-export const getUserOrders = async () => {
-  try {
-    const res = await api.get<GetOrdersResponse>("/orders");
-    return res.data.orders;
-  } catch (e) {
-    console.error("Error fetching orders:", e);
-    throw e;
-  }
+type CreateOrderResponse = {
+  error?: string;
+  message?: string;
 };
 
 export const getAllOrders = async () => {
@@ -29,9 +24,9 @@ export const getAllOrders = async () => {
   }
 };
 
-export const createOrder = async (phone: string) => {
+export const createOrder = async (phone: string, cart: CartItem[]) => {
   try {
-    const res = await api.post(`/orders`, { phone });
+    const res = await api.post<CreateOrderResponse>(`/orders`, { phone, cart });
     return res.data;
   } catch (e) {
     console.error("Error creating order:", e);
