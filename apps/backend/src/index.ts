@@ -2,7 +2,6 @@ import express from "express";
 import productRoutes from "./routes/product-routes";
 import userRoutes from "./routes/user-routes";
 import orderRoutes from "./routes/order-routes";
-import cartRoutes from "./routes/cart-routes";
 import path from "path";
 
 require("dotenv").config();
@@ -40,8 +39,6 @@ app.use("/products", productRoutes);
 app.use("/user", userRoutes);
 
 app.use("/orders", orderRoutes);
-
-app.use("/cart", cartRoutes);
 
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
