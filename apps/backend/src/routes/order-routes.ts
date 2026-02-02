@@ -5,17 +5,13 @@ import {
   deleteOrder,
   getAllOrders,
   getOrder,
-  getUserOrders,
   updateOrderStatus,
 } from "../controllers/order-controller";
 
 const router = Router();
 
-// Getting the current user's orders
-router.get("/", authenticate, getUserOrders);
-
 // Creating an order for the current user
-router.post("/", authenticate, createOrder);
+router.post("/", createOrder);
 
 // Getting all available orders
 router.get("/all", authenticate, authorize, getAllOrders);

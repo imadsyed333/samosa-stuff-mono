@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AuthRequest } from "../middlewares/auth-middleware";
 import prisma from "../lib/prisma";
 import z from "zod";
@@ -10,99 +10,76 @@ const OrderStatusSchema = z.object({
   status: z.literal(Object.values(OrderStatus)),
 });
 
+const CartSchema = z.object({
+  productId: z.number({ error: "productId is required" }),
+  quantity: z
+    .number({ error: "quantity is required" })
+    .min(1, { message: "quantity must be at least 1" }),
+});
+
 const CreateOrderSchema = z.object({
   phone: z
     .string()
     .min(1, { error: "phone must not be empty" })
     .refine((val) => validator.isMobilePhone(val), {
-      message: "Invalid phone number",
+      error: "Invalid phone number",
     }),
+  cart: z.array(CartSchema).min(1, { error: "cart cannot be empty" }),
 });
 
-export const getUserOrders = async (req: AuthRequest, res: Response) => {
+export const createOrder = async (req: Request, res: Response) => {
   try {
-    if (!req.user) return res.status(401).json({ error: "Unauthorized" });
-
-    const orders = await prisma.order.findMany({
-      where: {
-        userId: req.user.id,
-      },
-      select: {
-        id: true,
-        cost: true,
-        createdAt: true,
-        status: true,
-        orderItems: {
-          select: {
-            product: true,
-            unitPrice: true,
-            subtotal: true,
-            quantity: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-    res.status(200).json({ orders: orders });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-export const createOrder = async (req: AuthRequest, res: Response) => {
-  try {
-    if (!req.user) return res.status(401).json({ error: "Unauthorized" });
-
     const parse = CreateOrderSchema.safeParse(req.body);
     if (!parse.success) {
       const errors = z.flattenError(parse.error);
       return res.status(400).json(errors.fieldErrors);
     }
 
-    const { phone } = parse.data;
+    const { phone, cart } = parse.data;
 
-    const cartItems = await prisma.cartItem.findMany({
+    const cartProducts = await prisma.product.findMany({
       where: {
-        userId: req.user.id,
+        id: {
+          in: cart.map((item) => item.productId),
+        },
       },
-      include: { product: true },
+      select: { id: true, price: true },
     });
-    if (cartItems.length === 0)
-      return res.status(404).json({ error: "No cart items found" });
 
-    const amount = cartItems.reduce(
-      (sum, item) => sum + item.product.price * item.quantity,
-      0,
-    );
+    const cartItems = cart.map((item) => {
+      const product = cartProducts.find((p) => p.id === item.productId);
+      if (!product) {
+        throw new Error(`Product with id ${item.productId} not found`);
+      }
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+      };
+    });
+
+    const orderItems = cartItems.map((item) => {
+      const product = cartProducts.find((p) => p.id === item.productId)!;
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        unitPrice: product.price,
+        subtotal: product.price * item.quantity,
+      };
+    });
+
+    const amount = orderItems.reduce((acc, item) => acc + item.subtotal, 0);
 
     const newOrder = await prisma.order.create({
       data: {
-        userId: req.user.id,
         cost: amount,
         orderItems: {
-          create: cartItems.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            unitPrice: item.product.price,
-            subtotal: item.product.price * item.quantity,
-          })),
+          create: orderItems,
         },
         phone,
       },
-      include: {
-        orderItems: true,
-      },
     });
 
-    await prisma.cartItem.deleteMany({
-      where: {
-        userId: req.user.id,
-      },
-    });
-    res.status(201).json({ message: "Order placed" });
+    res.status(201).json({ message: `Order #${newOrder.id} placed` });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Internal server error" });
@@ -119,14 +96,6 @@ export const getAllOrders = async (req: AuthRequest, res: Response) => {
         createdAt: true,
         status: true,
         phone: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-          },
-        },
         orderItems: {
           select: {
             product: true,
@@ -205,14 +174,6 @@ export const updateOrderStatus = async (req: AuthRequest, res: Response) => {
         cost: true,
         createdAt: true,
         status: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-          },
-        },
         orderItems: {
           select: {
             product: true,
