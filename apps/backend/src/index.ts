@@ -35,15 +35,21 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/products", productRoutes);
+app.use("/api/products", productRoutes);
 
-app.use("/user", userRoutes);
+app.use("/api/user", userRoutes);
 
-app.use("/orders", orderRoutes);
+app.use("/api/orders", orderRoutes);
 
-app.use("/cart", cartRoutes);
+app.use("/api/cart", cartRoutes);
 
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use("/api/uploads", express.static(path.join(__dirname, "../uploads")));
+
+app.use(express.static(path.join(__dirname, "../../frontend/build")));
+
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "../../frontend/build/index.html"));
+});
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
