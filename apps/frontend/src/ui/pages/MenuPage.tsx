@@ -24,11 +24,11 @@ export const Menu = () => {
         }}
       >
         <Typography
-          variant="h1"
+          variant="h2"
           sx={{
             color: colors.secondary,
             textAlign: "left",
-            mb: 1,
+            my: 1,
           }}
         >
           Samosa
