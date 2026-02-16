@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import React from "react";
 import { ProductCard } from "../product/ProductCard";
 import { useProductQuery } from "../../../hooks/useProductQuery";
@@ -8,7 +8,18 @@ export const MenuGrid = () => {
 
   return (
     <>
-      {isPending && <CircularProgress />}
+      {isPending && (
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
       {isError && <Typography>Menu could not be loaded.</Typography>}
       {isSuccess && (
         <Grid
