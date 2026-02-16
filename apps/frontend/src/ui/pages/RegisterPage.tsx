@@ -1,4 +1,12 @@
-import { Box, Button, Card, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  List,
+  ListItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { ErrorBox } from "../components/ErrorBox";
@@ -44,7 +52,7 @@ const RegisterFormSchema = z
     {
       message: "Email already exists",
       path: ["email"],
-    }
+    },
   );
 
 export const Register = () => {
@@ -98,65 +106,88 @@ export const Register = () => {
       <Card
         sx={{
           display: "flex",
-          flexDirection: "column",
-          p: 5,
-          gap: 2,
-          height: "fit-content",
+          flexDirection: "row",
+          p: 2,
+          m: 2,
         }}
         variant="outlined"
       >
-        <TextField
-          label="Name"
-          variant="outlined"
-          name="name"
-          value={form.name}
-          onChange={(e) => handleInput(e)}
-          error={!!formErrors?.name}
-        />
-
-        <ErrorBox errors={formErrors?.name || []} />
-
-        <TextField
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={form.email}
-          onChange={(e) => handleInput(e)}
-          error={!!formErrors?.email}
-        />
-
-        <ErrorBox errors={formErrors?.email || []} />
-
-        <TextField
-          label="Password"
-          type="password"
-          name="password"
-          variant="outlined"
-          value={form.password}
-          onChange={(e) => handleInput(e)}
-          error={!!formErrors.password}
-        />
-
-        <ErrorBox errors={formErrors?.password || []} />
-
-        <TextField
-          label="Re-type Password"
-          type="password"
-          name="retypePassword"
-          variant="outlined"
-          value={form.retypePassword}
-          onChange={(e) => handleInput(e)}
-        />
-
-        <ErrorBox errors={formErrors?.retypePassword || []} />
-        <Button
-          variant="contained"
-          onClick={() => submitForm()}
-          loading={loading}
-          size="large"
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "fit-content",
+            gap: 1,
+          }}
         >
-          Sign up
-        </Button>
+          <TextField
+            label="Name"
+            variant="outlined"
+            name="name"
+            value={form.name}
+            onChange={(e) => handleInput(e)}
+            error={!!formErrors?.name}
+          />
+
+          <ErrorBox errors={formErrors?.name || []} />
+
+          <TextField
+            label="Email"
+            variant="outlined"
+            name="email"
+            value={form.email}
+            onChange={(e) => handleInput(e)}
+            error={!!formErrors?.email}
+          />
+
+          <ErrorBox errors={formErrors?.email || []} />
+
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            variant="outlined"
+            value={form.password}
+            onChange={(e) => handleInput(e)}
+            error={!!formErrors.password}
+          />
+
+          <ErrorBox errors={formErrors?.password || []} />
+
+          <TextField
+            label="Re-type Password"
+            type="password"
+            name="retypePassword"
+            variant="outlined"
+            value={form.retypePassword}
+            onChange={(e) => handleInput(e)}
+          />
+
+          <ErrorBox errors={formErrors?.retypePassword || []} />
+          <Button
+            variant="contained"
+            onClick={() => submitForm()}
+            loading={loading}
+            size="large"
+          >
+            Sign up
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            pl: 2,
+          }}
+        >
+          <Typography>Your password must have:</Typography>
+          <List>
+            <ListItem>At least 8 characters</ListItem>
+            <ListItem>A lower-case letter</ListItem>
+            <ListItem>An upper-case letter</ListItem>
+            <ListItem>A digit</ListItem>
+          </List>
+        </Box>
       </Card>
     </Box>
   );
