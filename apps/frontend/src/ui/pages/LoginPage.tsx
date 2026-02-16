@@ -1,13 +1,6 @@
-import {
-  Box,
-  Button,
-  Card,
-  CircularProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { useContext, useState } from "react";
-import { AuthContext, useAuth } from "../../context/AuthContext";
+import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { NavLink } from "react-router";
 import { ErrorBox } from "../components/ErrorBox";
 import { colors } from "../../lib/themes";
@@ -17,7 +10,9 @@ export const Login = () => {
     email: "",
     password: "",
   });
-  const { login, fieldErrors, loading } = useAuth();
+  const { login, fieldErrors } = useAuth();
+
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (e: any) => {
     setForm({
@@ -64,7 +59,10 @@ export const Login = () => {
         <Button
           variant="contained"
           sx={{ backgroundColor: colors.button.primary }}
-          onClick={() => login(form.email, form.password)}
+          onClick={() => {
+            login(form.email, form.password);
+            setLoading(true);
+          }}
           size="large"
           loading={loading}
         >

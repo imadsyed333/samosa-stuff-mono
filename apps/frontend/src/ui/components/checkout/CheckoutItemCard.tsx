@@ -1,6 +1,5 @@
 import React from "react";
-import { useCartQuery } from "../../../hooks/useCartQuery";
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { CartItem } from "../../../lib/types";
 import { formatPrice } from "../../../lib/utils";
 

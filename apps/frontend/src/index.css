@@ -1,10 +1,14 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/public/fonts/Inter-VariableFont_opsz\,wght.ttf");
+  font-display: swap;
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Inter", sans-serif;
 }
 
 .back-card {
-  background-color: 'pink';
+  background-color: "pink";
 }

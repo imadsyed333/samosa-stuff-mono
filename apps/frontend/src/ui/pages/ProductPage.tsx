@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router";
 import { getProductWithId } from "../../api/productClient";
 import { Box, CircularProgress, Grid, Typography } from "@mui/material";

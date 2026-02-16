@@ -1,10 +1,4 @@
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Card, CardActionArea, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { colors } from "../../../lib/themes";
@@ -16,7 +10,7 @@ export const NavButton = ({ name, link }: { name: string; link: string }) => {
 
   useEffect(() => {
     location.pathname === link ? setSelected(true) : setSelected(false);
-  }, [location.pathname]);
+  }, [location.pathname, link]);
 
   return (
     <Card
