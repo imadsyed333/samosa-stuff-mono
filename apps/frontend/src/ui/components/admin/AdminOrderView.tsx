@@ -1,10 +1,10 @@
 import React from "react";
 import { useOrderQuery } from "./useOrderQuery";
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, CircularProgress, Typography } from "@mui/material";
 import { OrderList } from "../order/OrderList";
 
 export const AdminOrderView = () => {
-  const { orders } = useOrderQuery();
+  const { orders, isError, isPending, isSuccess } = useOrderQuery();
   return (
     <Box
       sx={{
@@ -28,8 +28,14 @@ export const AdminOrderView = () => {
         }}
         variant="outlined"
       >
-        <Typography variant="h3">Orders</Typography>
-        <OrderList orders={orders} isAdmin={true} />
+        {isPending && <CircularProgress />}
+        {isError && <Typography>Orders could not be loaded.</Typography>}
+        {isSuccess && (
+          <>
+            <Typography variant="h3">Orders</Typography>
+            <OrderList orders={orders} isAdmin={true} />
+          </>
+        )}
       </Card>
     </Box>
   );
