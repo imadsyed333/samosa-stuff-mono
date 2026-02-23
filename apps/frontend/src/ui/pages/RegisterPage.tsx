@@ -12,6 +12,7 @@ import { useAuth } from "../../context/AuthContext";
 import { ErrorBox } from "../components/ErrorBox";
 import z from "zod";
 import { verifyEmail } from "../../api/authClient";
+import PasswordRules from "../components/account/PasswordRules";
 
 type RegisterFormErrors = {
   name?: String[] | undefined;
@@ -29,7 +30,7 @@ const RegisterFormSchema = z
       .min(8, { error: "Must have at least 8 characters" })
       .regex(/[a-z]+/, { error: "Must contain a lower-case letter" })
       .regex(/[A-Z]+/, { error: "Must contain an upper-case letter" })
-      .regex(/[0-9]+/, { error: "Must contain a digit" }),
+      .regex(/[0-9]+/, { error: "Must contain a number" }),
     retypePassword: z.string(),
   })
   .superRefine((data, ctx) => {
@@ -152,7 +153,11 @@ export const Register = () => {
             error={!!formErrors.password}
           />
 
-          <ErrorBox errors={formErrors?.password || []} />
+          {formErrors.password ? (
+            <ErrorBox errors={formErrors?.password || []} />
+          ) : (
+            <PasswordRules />
+          )}
 
           <TextField
             label="Re-type Password"
@@ -179,15 +184,7 @@ export const Register = () => {
             flexDirection: "column",
             pl: 2,
           }}
-        >
-          <Typography>Your password must have:</Typography>
-          <List>
-            <ListItem>At least 8 characters</ListItem>
-            <ListItem>A lower-case letter</ListItem>
-            <ListItem>An upper-case letter</ListItem>
-            <ListItem>A digit</ListItem>
-          </List>
-        </Box>
+        ></Box>
       </Card>
     </Box>
   );
