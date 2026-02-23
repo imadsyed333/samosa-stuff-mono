@@ -1,9 +1,18 @@
-import { Box, Button, Card, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  List,
+  ListItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { ErrorBox } from "../components/ErrorBox";
 import z from "zod";
 import { verifyEmail } from "../../api/authClient";
+import PasswordRules from "../components/account/PasswordRules";
 
 type RegisterFormErrors = {
   name?: String[] | undefined;
@@ -21,7 +30,7 @@ const RegisterFormSchema = z
       .min(8, { error: "Must have at least 8 characters" })
       .regex(/[a-z]+/, { error: "Must contain a lower-case letter" })
       .regex(/[A-Z]+/, { error: "Must contain an upper-case letter" })
-      .regex(/[0-9]+/, { error: "Must contain a digit" }),
+      .regex(/[0-9]+/, { error: "Must contain a number" }),
     retypePassword: z.string(),
   })
   .superRefine((data, ctx) => {
@@ -44,7 +53,7 @@ const RegisterFormSchema = z
     {
       message: "Email already exists",
       path: ["email"],
-    }
+    },
   );
 
 export const Register = () => {
@@ -98,65 +107,84 @@ export const Register = () => {
       <Card
         sx={{
           display: "flex",
-          flexDirection: "column",
-          p: 5,
-          gap: 2,
-          height: "fit-content",
+          flexDirection: "row",
+          p: 2,
+          m: 2,
         }}
         variant="outlined"
       >
-        <TextField
-          label="Name"
-          variant="outlined"
-          name="name"
-          value={form.name}
-          onChange={(e) => handleInput(e)}
-          error={!!formErrors?.name}
-        />
-
-        <ErrorBox errors={formErrors?.name || []} />
-
-        <TextField
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={form.email}
-          onChange={(e) => handleInput(e)}
-          error={!!formErrors?.email}
-        />
-
-        <ErrorBox errors={formErrors?.email || []} />
-
-        <TextField
-          label="Password"
-          type="password"
-          name="password"
-          variant="outlined"
-          value={form.password}
-          onChange={(e) => handleInput(e)}
-          error={!!formErrors.password}
-        />
-
-        <ErrorBox errors={formErrors?.password || []} />
-
-        <TextField
-          label="Re-type Password"
-          type="password"
-          name="retypePassword"
-          variant="outlined"
-          value={form.retypePassword}
-          onChange={(e) => handleInput(e)}
-        />
-
-        <ErrorBox errors={formErrors?.retypePassword || []} />
-        <Button
-          variant="contained"
-          onClick={() => submitForm()}
-          loading={loading}
-          size="large"
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "fit-content",
+            gap: 1,
+          }}
         >
-          Sign up
-        </Button>
+          <TextField
+            label="Name"
+            variant="outlined"
+            name="name"
+            value={form.name}
+            onChange={(e) => handleInput(e)}
+            error={!!formErrors?.name}
+          />
+
+          <ErrorBox errors={formErrors?.name || []} />
+
+          <TextField
+            label="Email"
+            variant="outlined"
+            name="email"
+            value={form.email}
+            onChange={(e) => handleInput(e)}
+            error={!!formErrors?.email}
+          />
+
+          <ErrorBox errors={formErrors?.email || []} />
+
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            variant="outlined"
+            value={form.password}
+            onChange={(e) => handleInput(e)}
+            error={!!formErrors.password}
+          />
+
+          {formErrors.password ? (
+            <ErrorBox errors={formErrors?.password || []} />
+          ) : (
+            <PasswordRules />
+          )}
+
+          <TextField
+            label="Re-type Password"
+            type="password"
+            name="retypePassword"
+            variant="outlined"
+            value={form.retypePassword}
+            onChange={(e) => handleInput(e)}
+          />
+
+          <ErrorBox errors={formErrors?.retypePassword || []} />
+          <Button
+            variant="contained"
+            onClick={() => submitForm()}
+            loading={loading}
+            size="large"
+          >
+            Sign up
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            pl: 2,
+          }}
+        ></Box>
       </Card>
     </Box>
   );

@@ -35,8 +35,9 @@ export const Login = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          p: 5,
-          gap: 2,
+          p: 2,
+          gap: 1,
+          m: 2,
         }}
         variant="outlined"
       >

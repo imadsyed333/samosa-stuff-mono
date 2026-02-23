@@ -1,9 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
-import { MenuGrid } from "../components/menu/MenuGrid";
-import { colors } from "../../lib/themes";
+import { useProductQuery } from "../../hooks/useProductQuery";
+import MenuSection from "../components/menu/MenuSection";
 
 export const Menu = () => {
+  const { isPending, isError, products, isSuccess } = useProductQuery();
   return (
     <Box
       sx={{
@@ -15,26 +16,21 @@ export const Menu = () => {
         flexGrow: 1,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <Typography
-          variant="h1"
+      {isPending && <CircularProgress />}
+      {isError && <Typography>Menu could not be loaded</Typography>}
+      {isSuccess && (
+        <Box
           sx={{
-            color: colors.secondary,
-            textAlign: "left",
-            mb: 1,
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            width: "100%",
           }}
         >
-          Samosa
-        </Typography>
-        <MenuGrid />
-      </Box>
+          <MenuSection products={products} type="Samosa" />
+          <MenuSection products={products} type="Kabab" />
+        </Box>
+      )}
     </Box>
   );
 };
