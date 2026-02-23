@@ -98,7 +98,7 @@ const CheckoutPage = () => {
               flex: 1,
             }}
             inputRef={inputRef}
-            placeholder="000-000-0000"
+            placeholder="(000)-000-0000"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />

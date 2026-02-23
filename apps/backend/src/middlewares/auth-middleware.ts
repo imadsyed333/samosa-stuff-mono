@@ -22,7 +22,7 @@ const registerSchema = z.object({
     .min(8, { error: "Must have at least 8 characters" })
     .regex(/[a-z]+/, { error: "Must contain a lower-case letter" })
     .regex(/[A-Z]+/, { error: "Must contain an upper-case letter" })
-    .regex(/[0-9]+/, { error: "Must contain a digit" }),
+    .regex(/[0-9]+/, { error: "Must contain a number" }),
 });
 
 const loginSchema = z.object({
@@ -33,7 +33,7 @@ const loginSchema = z.object({
 export const validateRegister = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const result = await registerSchema.safeParseAsync(req.body);
   if (result.success) {
@@ -47,7 +47,7 @@ export const validateRegister = async (
 export const validateLogin = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const result = loginSchema.safeParse(req.body);
   if (result.success) {
@@ -60,7 +60,7 @@ export const validateLogin = (
 export const authenticate = async (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const authHeader = req.headers.authorization;
   let token: string | undefined;
@@ -85,7 +85,7 @@ export const authenticate = async (
 export const authorize = async (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (!req.user) return res.status(401).json({ error: "Unauthorized" });
   const user = await prisma.user.findUnique({

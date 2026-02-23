@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, CircularProgress, Typography } from "@mui/material";
 import React from "react";
 import { SelectedProductProvider } from "../../../context/SelectProductContext";
 import { ProductList } from "../product/ProductList";
@@ -7,7 +7,7 @@ import AdminProductDialog from "./AdminProductDialog";
 import AddProductFab from "./AddProductFab";
 
 export const AdminProductView = () => {
-  const { products } = useProductQuery();
+  const { products, isError, isPending, isSuccess } = useProductQuery();
 
   return (
     <Box
@@ -34,7 +34,9 @@ export const AdminProductView = () => {
           }}
         >
           <Typography variant="h3">Products</Typography>
-          <ProductList products={products} />
+          {isPending && <CircularProgress />}
+          {isError && <Typography>Products could not be loaded.</Typography>}
+          {isSuccess && <ProductList products={products} />}
           <AddProductFab />
         </Card>
         <AdminProductDialog />

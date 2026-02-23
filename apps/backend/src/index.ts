@@ -36,7 +36,7 @@ app.use("/api/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(express.static(path.join(__dirname, "../../frontend/build")));
 
-app.get(/^\/(?!api).*/, (req, res) => {
+app.get(/^\/(?!api).*/, (_req, res) => {
   res.sendFile(path.join(__dirname, "../../frontend/build/index.html"));
 });
 
