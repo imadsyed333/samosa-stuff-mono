@@ -1,30 +1,20 @@
-import { CircularProgress, Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import React from "react";
 import { ProductCard } from "../product/ProductCard";
-import { useProductQuery } from "../../../hooks/useProductQuery";
+import { Product } from "../../../lib/types";
 
-export const MenuGrid = () => {
-  const { isPending, isError, products, isSuccess } = useProductQuery();
+type MenuGridProps = {
+  products: Product[];
+};
 
+export const MenuGrid = ({ products }: MenuGridProps) => {
   return (
-    <>
-      {isPending && <CircularProgress />}
-      {isError && <Typography>Menu could not be loaded.</Typography>}
-      {isSuccess && (
-        <Grid
-          container
-          columns={{ xs: 1, sm: 4 }}
-          columnSpacing={2}
-          rowSpacing={2}
-        >
-          {isSuccess &&
-            products.map((product, index) => (
-              <Grid key={index} size={1}>
-                <ProductCard product={product} />
-              </Grid>
-            ))}
+    <Grid container columns={{ xs: 1, sm: 4 }} columnSpacing={2} rowSpacing={2}>
+      {products.map((product, index) => (
+        <Grid key={index} size={1}>
+          <ProductCard product={product} />
         </Grid>
-      )}
-    </>
+      ))}
+    </Grid>
   );
 };
